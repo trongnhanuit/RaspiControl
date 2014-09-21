@@ -19,6 +19,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -44,14 +45,15 @@ public class MainActivity extends ActionBarActivity implements
 	BufferedReader in;
 	int check;
 	private String[] tabs = { "Setting", "Streaming", "About" };
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		ConnectSSH();
+		/*ConnectSSH();
 		if(check==1)
-			ExecuteCommand("stream.sh");
+			ExecuteCommand("stream.sh");*/
 		// Set up the action bar.
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
