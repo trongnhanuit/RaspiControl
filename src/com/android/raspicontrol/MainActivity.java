@@ -28,10 +28,7 @@ public class MainActivity extends ActionBarActivity implements
 	// Khai bao bien
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
-	Session session;
-  	ChannelExec channel;
-	BufferedReader in;
-	int check;
+
 	private String[] tabs = { "Setting", "Streaming", "About" };
 
 	@Override
@@ -138,86 +135,4 @@ public class MainActivity extends ActionBarActivity implements
 			return 3;
 		}
 	}
-	
-	public int ConnectSSH() {
-		check=1;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    JSch jsch = new JSch();
-                    session = jsch.getSession("pi", "192.168.1.101", 22);
-                    session.setPassword("raspberry");
-                    Properties config = new Properties();
-                    config.put("StrictHostKeyChecking", "no");
-                    session.setConfig(config);
-                    session.connect();
-                    
-                    //StartUpdateLoop();
-                } catch (final Exception e) {
-                    ThrowException(e.getMessage());
-                    check=0;
-                }
-            }
-        }).start();
-        return check;
-    }
-    public void DisconnectSSH() {
-        channel.disconnect();
-        session.disconnect();
-    }
-    public String ExecuteCommand(String command) {
-        try {
-            if (session.isConnected()) {
-                channel = (ChannelExec) session.openChannel("exec");
-                in = new BufferedReader(new InputStreamReader(channel.getInputStream()));
-
-                String username = "pi";
-                if (!username.equals("root")) {
-                    command = "sudo " + command;
-                }
-
-                channel.setCommand(command);
-                channel.connect();
-
-                StringBuilder builder = new StringBuilder();
-
-                String line = null;
-               /* while ((line = in.readLine()) != null) {
-                    builder.append(line).append(System.getProperty("line.separator"));
-                }*/
-
-                String output = builder.toString();
-                if (output.lastIndexOf("\n") > 0) {
-                    return output.substring(0, output.lastIndexOf("\n"));
-                } else {
-                    return output;
-                }
-            }
-        } catch (Exception e) {
-            ThrowException(e.getMessage());
-        }
-
-        return "";
-    }
-    public void ThrowException(final String msg) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("Error");
-                builder.setMessage(msg);
-                builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                });
-                builder.setPositiveButton("Change profile", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-                builder.show();
-            }
-        });
-    }
 }
