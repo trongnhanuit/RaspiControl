@@ -22,7 +22,11 @@ public class StreamingFrame extends Fragment {
 			Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.activity_streaming_frame, container,
 				false);
+<<<<<<< HEAD
 /*				webview=(WebView)rootView.findViewById(R.id.streamview);
+=======
+				/*webview=(WebView)rootView.findViewById(R.id.streamview);
+>>>>>>> origin/master
 				String strHtml = "<html><head>"
 				          + "</head>"
 				          + "<body>"
