@@ -12,7 +12,13 @@ public class ControlRaspberry {
 	ChannelExec channel;
 	BufferedReader in;
 	Boolean check;
-	
+	public ControlRaspberry()
+	{
+		session  = null;
+		channel = null;
+		in = null;
+		
+	}
 	public Boolean ConnectSSH(final String username, final String password, final String IP, final int port)
 	{
 		check=true;
@@ -56,10 +62,10 @@ public class ControlRaspberry {
 	                StringBuilder builder = new StringBuilder();
 
 	                String line = null;
-	                while ((line = in.readLine()) != null) {
+	                /*while ((line = in.readLine()) != null) {
 	                    builder.append(line).append(System.getProperty("line.separator"));
 	                }
-
+*/
 	                String output = builder.toString();
 	                if (output.lastIndexOf("\n") > 0) {
 	                    return output.substring(0, output.lastIndexOf("\n"));

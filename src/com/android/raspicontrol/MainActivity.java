@@ -1,16 +1,27 @@
 package com.android.raspicontrol;
 
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Properties;
+
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity implements
 		ActionBar.TabListener {
@@ -28,13 +39,19 @@ public class MainActivity extends ActionBarActivity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
+	Session session;
+  	ChannelExec channel;
+	BufferedReader in;
+	int check;
 	private String[] tabs = { "Setting", "Streaming", "About" };
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		
+		ConnectSSH();
+		if(check==1)
+			ExecuteCommand("stream.sh");
 		// Set up the action bar.
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -136,4 +153,86 @@ public class MainActivity extends ActionBarActivity implements
 			return 3;
 		}
 	}
+	public int ConnectSSH() {
+		check=1;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    JSch jsch = new JSch();
+                    session = jsch.getSession("pi", "192.168.1.101", 22);
+                    session.setPassword("raspberry");
+                    Properties config = new Properties();
+                    config.put("StrictHostKeyChecking", "no");
+                    session.setConfig(config);
+                    session.connect();
+                    
+                    //StartUpdateLoop();
+                } catch (final Exception e) {
+                    ThrowException(e.getMessage());
+                    check=0;
+                }
+            }
+        }).start();
+        return check;
+    }
+
+    public void DisconnectSSH() {
+        channel.disconnect();
+        session.disconnect();
+    }
+    public String ExecuteCommand(String command) {
+        try {
+            if (session.isConnected()) {
+                channel = (ChannelExec) session.openChannel("exec");
+                in = new BufferedReader(new InputStreamReader(channel.getInputStream()));
+
+                String username = "pi";
+                if (!username.equals("root")) {
+                    command = "sudo " + command;
+                }
+
+                channel.setCommand(command);
+                channel.connect();
+
+                StringBuilder builder = new StringBuilder();
+
+                String line = null;
+               /* while ((line = in.readLine()) != null) {
+                    builder.append(line).append(System.getProperty("line.separator"));
+                }*/
+
+                String output = builder.toString();
+                if (output.lastIndexOf("\n") > 0) {
+                    return output.substring(0, output.lastIndexOf("\n"));
+                } else {
+                    return output;
+                }
+            }
+        } catch (Exception e) {
+            ThrowException(e.getMessage());
+        }
+
+        return "";
+    }
+    public void ThrowException(final String msg) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Error");
+                builder.setMessage(msg);
+                builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                builder.setPositiveButton("Change profile", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.show();
+            }
+        });
+    }
 }
