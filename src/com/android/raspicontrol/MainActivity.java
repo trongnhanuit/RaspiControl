@@ -49,9 +49,9 @@ public class MainActivity extends ActionBarActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		ConnectSSH();
+		/*ConnectSSH();
 		if(check==1)
-			ExecuteCommand("stream.sh");
+			ExecuteCommand("stream.sh");*/
 		// Set up the action bar.
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);

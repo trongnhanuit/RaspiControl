@@ -21,13 +21,13 @@ public class StreamingFrame extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.activity_streaming_frame, container,
 				false);
-				webview=(WebView)rootView.findViewById(R.id.streamview);
+				/*webview=(WebView)rootView.findViewById(R.id.streamview);
 				String strHtml = "<html><head>"
 				          + "</head>"
 				          + "<body>"
 				          + "<img src='http://192.168.1.101:8080/?action=stream' width='320px' height='500px'/>"            
 				          + "</body></html>";
-				webview.loadData(strHtml, "text/html", "utf-8");
+				webview.loadData(strHtml, "text/html", "utf-8");*/
 		return rootView;
 	}
 }
