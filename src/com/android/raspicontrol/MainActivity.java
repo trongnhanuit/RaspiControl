@@ -25,18 +25,8 @@ import android.view.MenuItem;
 public class MainActivity extends ActionBarActivity implements
 		ActionBar.TabListener {
 
-	/**
-	 * The {@link android.support.v4.view.PagerAdapter} that will provide
-	 * fragments for each of the sections. We use a {@link FragmentPagerAdapter}
-	 * derivative, which will keep every loaded fragment in memory. If this
-	 * becomes too memory intensive, it may be best to switch to a
-	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-	 */
+	// Khai bao bien
 	SectionsPagerAdapter mSectionsPagerAdapter;
-
-	/**
-	 * The {@link ViewPager} that will host the section contents.
-	 */
 	ViewPager mViewPager;
 	Session session;
   	ChannelExec channel;
@@ -65,8 +55,6 @@ public class MainActivity extends ActionBarActivity implements
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 
-		// When swiping between different sections, select the corresponding
-		// tab. We can also use ActionBar.Tab#select() to do this if we have
 		// a reference to the Tab.
 		mViewPager
 				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
@@ -78,10 +66,7 @@ public class MainActivity extends ActionBarActivity implements
 
 		// For each of the sections in the app, add a tab to the action bar.
 		for (String tab_name : tabs) {
-			// Create a tab with text corresponding to the page title defined by
-			// the adapter. Also specify this Activity object, which implements
-			// the TabListener interface, as the callback (listener) for when
-			// this tab is selected.
+
 			actionBar.addTab(actionBar.newTab()
 					.setText(tab_name)
 					.setTabListener(this));
@@ -153,6 +138,7 @@ public class MainActivity extends ActionBarActivity implements
 			return 3;
 		}
 	}
+	
 	public int ConnectSSH() {
 		check=1;
         new Thread(new Runnable() {
@@ -176,7 +162,6 @@ public class MainActivity extends ActionBarActivity implements
         }).start();
         return check;
     }
-
     public void DisconnectSSH() {
         channel.disconnect();
         session.disconnect();
