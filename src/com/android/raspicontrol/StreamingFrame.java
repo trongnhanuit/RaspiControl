@@ -29,15 +29,15 @@ public class StreamingFrame extends Fragment {
         {
 	    	 Log.d("MyFragment", "stream");
 	            webview=(WebView)rootView.findViewById(R.id.streamview);
-	           // webview.getSettings().setDomStorageEnabled(true);
-	            //webview.getSettings().setBuiltInZoomControls(true);
+	            webview.getSettings().setDomStorageEnabled(true);
+	            webview.getSettings().setBuiltInZoomControls(true);
 	            //webview.loadUrl("http://192.168.1.101:8080/");
 	            String strHtml = "<html><head>"
 					          + "</head>"
 					          + "<body>"
 					          + "<img src='http://192.168.1.101:8080/?action=stream'/>"            
 					          + "</body></html>";
-				webview.loadData(strHtml, "text/html", "utf-8");
+				webview.loadData(strHtml, "text/html", null);
         }
 	}
 }
