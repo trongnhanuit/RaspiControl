@@ -13,10 +13,10 @@ public class Function {
 	static Session session;
 	static ChannelExec channel;
 	static BufferedReader in;
-	static int check;
+public static int check;
 	
-	public static void ConnectSSH(final String username, final String password, final String ip) {
-		check=1;
+	public static int ConnectSSH(final String username, final String password, final String ip) {
+		
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -29,14 +29,17 @@ public class Function {
                     session.setConfig(config);
                     session.connect();
                     Log.d("Info","Connect successfully.");
+                    check=1;
                 } catch (final Exception e) {
                 	Log.d("Error",e.getMessage().toString());
                     check=0;
                 }
             }
         }).start();
+        if(check==1) return 1;
+        return 0;
     }
-
+	
     public static void DisconnectSSH() {
         channel.disconnect();
         session.disconnect();
