@@ -32,13 +32,13 @@ public class StreamingFrame extends Fragment {
 	            webview.getSettings().setDomStorageEnabled(true);
 	            //webview.getSettings().setBuiltInZoomControls(true);
 	            webview.getSettings().setJavaScriptEnabled(true);
-	            webview.loadUrl("http://192.168.1.101:8080/");
-	            /*String strHtml = "<html><head>"
+	            //webview.loadUrl("http://192.168.1.101:8080/");
+	            String strHtml = "<html><head>"
 					          + "</head>"
 					          + "<body>"
 					          + "<img src='http://192.168.1.101:8080/?action=stream'/>"            
-					          + "</body></html>";*/
-				//webview.loadData(strHtml, "text/html", null);
+					          + "</body></html>";
+				webview.loadData(strHtml, "text/html", null);
         }
 	}
 }
