@@ -1,18 +1,15 @@
 package com.android.raspicontrol;
 
 import com.android.control.Function;
-
 import android.support.v4.app.Fragment;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,29 +18,30 @@ import android.widget.Toast;
 public class SettingFrame extends Fragment {
 
 	Button btnConnect;
-	TextView tv1, tv2, tv3, tv4;
-	EditText ed1, ed2, ed3;
+	TextView tvConnection, tvIP, tvUsername, tvPassword;
+	EditText etIP, etUsername, etPassword;
 	AlertDialog.Builder mydialog;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.activity_setting_frame, container,
 				false);
-		tv1=(TextView)rootView.findViewById(R.id.textView1);
+		tvConnection=(TextView)rootView.findViewById(R.id.tvConnection);
 		Typeface face = Typeface.createFromAsset(getActivity().getAssets(),"SEGOEUIL.TTF");
-		tv1.setTypeface(face);
-		tv2=(TextView)rootView.findViewById(R.id.textView2);
-		tv2.setTypeface(face);
-		tv3=(TextView)rootView.findViewById(R.id.textView3);
-		tv3.setTypeface(face);
-		tv4=(TextView)rootView.findViewById(R.id.textView4);
-		tv4.setTypeface(face);
-		ed1=(EditText)rootView.findViewById(R.id.editText1);
-		ed1.setTypeface(face);
-		ed2=(EditText)rootView.findViewById(R.id.editText2);
-		ed2.setTypeface(face);
-		ed3=(EditText)rootView.findViewById(R.id.editText3);
-		ed3.setTypeface(face);
+		tvConnection.setTypeface(face);
+		tvIP=(TextView)rootView.findViewById(R.id.tvIP);
+		tvIP.setTypeface(face);
+		tvUsername=(TextView)rootView.findViewById(R.id.tvUsername);
+		tvUsername.setTypeface(face);
+		tvPassword=(TextView)rootView.findViewById(R.id.tvPassword);
+		tvPassword.setTypeface(face);
+		etIP=(EditText)rootView.findViewById(R.id.etIP);
+		etIP.setTypeface(face);
+		etUsername=(EditText)rootView.findViewById(R.id.etUsername);
+		etUsername.setTypeface(face);
+		etPassword=(EditText)rootView.findViewById(R.id.etPassword);
+		etPassword.setTypeface(face);
 		btnConnect = (Button)rootView.findViewById(R.id.btnConnect);
 		btnConnect.setTypeface(face);
 		btnConnect.setOnClickListener(new View.OnClickListener() {
@@ -51,49 +49,57 @@ public class SettingFrame extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				connect();
+				final ProgressDialog pd=ProgressDialog.show(getActivity(), "Please wait", "Login...Please wait!");
+				//pd.setCancelable(true);
+		         new Thread(new Runnable() 
+		         {
+		             @Override
+		             public void run() 
+		             {
+		            	 connect();
+		                 pd.dismiss();
+		             }
+		         }).start();
 			}
 		});
 		return rootView;
 	}
 	
-	@Override
-	public void setUserVisibleHint(boolean isVisibleToUser) 
-	{
-	    super.setUserVisibleHint(isVisibleToUser);
-
-	    if (this.isVisible()&& isVisibleToUser) 
-        {
-            Log.d("MyFragment", "setting");
-        }
-	}
-	
 	public void connect()
 	{
-		
-		if(Function.ConnectSSH(ed2.getText().toString(), ed3.getText().toString(), ed1.getText().toString()) == 1)
-			Toast.makeText(getActivity().getApplicationContext(), "Connect Successfully", Toast.LENGTH_LONG).show();
+		Function.ConnectSSH(etUsername.getText().toString(), etPassword.getText().toString(), etIP.getText().toString());
+		if( Function.check == 1)
+			getActivity().runOnUiThread(new Runnable() 
+			{
+				  public void run() 
+				  {
+				    Toast.makeText(getActivity().getBaseContext(), "Connect Successfully", Toast.LENGTH_LONG).show();
+				  }
+			});
 		else 
-		{
-			mydialog = new AlertDialog.Builder(getActivity());
-			mydialog.setTitle("ERROR");
-			mydialog.setMessage("Connect Fail");
-			mydialog.setPositiveButton("Try Again", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					dialog.cancel();
-				}
+			getActivity().runOnUiThread(new Runnable() 
+			{
+				  public void run() 
+				  {
+					  	mydialog = new AlertDialog.Builder(getActivity());
+						mydialog.setTitle("ERROR");
+						mydialog.setMessage("Connect Fail");
+						mydialog.setNegativeButton("Try Again", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								// TODO Auto-generated method stub
+								dialog.cancel();
+							}
+						});
+						mydialog.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								// TODO Auto-generated method stub
+								getActivity().finish();
+							}
+						});
+						mydialog.create().show();
+				  }
 			});
-			mydialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					getActivity().finish();
-				}
-			});
-			mydialog.create().show();
-		}
 	}
 }

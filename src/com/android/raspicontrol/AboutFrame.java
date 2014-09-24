@@ -3,7 +3,6 @@ package com.android.raspicontrol;
 import android.support.v4.app.Fragment;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,16 +34,5 @@ public class AboutFrame extends Fragment {
 		tv07.setTypeface(tface);
 		tv08.setTypeface(tface);
 		return rootView;
-	}
-	
-	@Override
-	public void setUserVisibleHint(boolean isVisibleToUser) 
-	{
-	    super.setUserVisibleHint(isVisibleToUser);
-
-	    if (this.isVisible()&& isVisibleToUser) 
-        {
-            Log.d("MyFragment", "About");
-        }
 	}
 }

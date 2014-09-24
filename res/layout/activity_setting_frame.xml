@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="-3dp"
     android:background="#000000"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -17,122 +18,117 @@
         android:layout_alignParentTop="true" >
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
+            android:layout_width="350dp"
+            android:layout_height="482dp"
             android:orientation="vertical" >
 
             <TableLayout
-                android:id="@+id/tableLayout1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <TableRow
-                    android:id="@+id/tableRow1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-
-                    <TextView
-                        android:id="@+id/textView1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Connection"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="#ffffff"
-                        android:textSize="30dp" />
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRow2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="7dp"
-                        android:text="IP"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="#ffffff"
-                        android:textSize="20dp" />
-
-                    <EditText
-                        android:id="@+id/editText1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="7"
-                        android:gravity="left"
-                        android:text="192.168.1.101"
-                        android:textColor="#ffffff" >
-
-                        <requestFocus />
-                    </EditText>
-
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRow3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="7dp"
-                        android:text="Username"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="#ffffff"
-                        android:textSize="20dp" />
-
-                    <EditText
-                        android:id="@+id/editText2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="7"
-                        android:text="pi"
-                        android:textColor="#ffffff" />
-
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRow4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-
-                    <TextView
-                        android:id="@+id/textView4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="7dp"
-                        android:text="Password"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="#ffffff"
-                        android:textSize="20dp" />
-
-                    <EditText
-                        android:id="@+id/editText3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="7"
-                        android:inputType="textPassword"
-                        android:text="raspberry"
-                        android:textColor="#ffffff" />
-
-                </TableRow>
-
-                <Button
-                    android:id="@+id/btnConnect"
-                    android:layout_width="287dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="9dp"
-                    android:text="Connect"
-                    android:textColor="#ffffff"
-                    android:textSize="20dp" />
-            </TableLayout>
+	        android:id="@+id/tableLayout1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" >
+	
+	        <TableRow
+	            android:id="@+id/tableRow1"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content" >
+	
+	            <TextView
+	                android:id="@+id/tvConnection"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="Connection"
+	                android:textAppearance="?android:attr/textAppearanceLarge"
+	                android:textColor="#ffffff"
+	                android:textSize="30sp" />
+	        </TableRow>
+	
+	        <TableRow
+	            android:id="@+id/tableRow2"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content" >
+	
+	            <TextView
+	                android:id="@+id/tvIP"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_marginTop="7dp"
+	                android:text="IP"
+	                android:textAppearance="?android:attr/textAppearanceMedium"
+	                android:textColor="#ffffff"
+	                android:textSize="20sp" />
+	
+	            <EditText
+	                android:id="@+id/etIP"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:ems="7"
+	                android:gravity="left"
+	                android:text="192.168.1.101"
+	                android:textColor="#ffffff" />
+	        </TableRow>
+	
+	        <TableRow
+	            android:id="@+id/tableRow3"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content" >
+	
+	            <TextView
+	                android:id="@+id/tvUsername"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_marginTop="7dp"
+	                android:text="Username"
+	                android:textAppearance="?android:attr/textAppearanceMedium"
+	                android:textColor="#ffffff"
+	                android:textSize="20sp" />
+	
+	            <EditText
+	                android:id="@+id/etUsername"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:ems="7"
+	                android:text="pi"
+	                android:textColor="#ffffff" />
+	        </TableRow>
+	
+	        <TableRow
+	            android:id="@+id/tableRow4"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content" >
+	
+	            <TextView
+	                android:id="@+id/tvPassword"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_marginTop="7dp"
+	                android:text="Password"
+	                android:textAppearance="?android:attr/textAppearanceMedium"
+	                android:textColor="#ffffff"
+	                android:textSize="20sp" />
+	
+	            <EditText
+	                android:id="@+id/etPassword"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:ems="7"
+	                android:inputType="textPassword"
+	                android:text="raspberry"
+	                android:textColor="#ffffff" />
+	        </TableRow>
+	
+	        <Button
+	            android:id="@+id/btnConnect"
+	            android:layout_width="287dp"
+	            android:layout_height="wrap_content"
+	            android:layout_marginTop="9dp"
+	            android:text="Connect"
+	            android:textColor="#ffffff"
+	            android:textSize="20sp" />
+	    </TableLayout>
 
         </LinearLayout>
     </ScrollView>
+
+    
 
 </RelativeLayout>
