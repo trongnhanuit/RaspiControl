@@ -39,7 +39,10 @@ public class StreamingFrame extends Fragment {
 	            webview.getSettings().setDomStorageEnabled(true);
 	            //webview.getSettings().setBuiltInZoomControls(true);
 	            webview.getSettings().setJavaScriptEnabled(true);
+<<<<<<< HEAD
+=======
 	            
+>>>>>>> origin/master
 	            //webview.loadUrl("http://192.168.1.101:8080/");
 	            String strHtml = "<html><head>"
 					          + "</head>"
