@@ -1,6 +1,8 @@
 package com.android.raspicontrol;
 
 
+import com.android.control.Function;
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -93,6 +95,10 @@ public class MainActivity extends ActionBarActivity implements
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 	}
+	@Override
+    public void onDestroy() {
+        super.onDestroy();
+}
 
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

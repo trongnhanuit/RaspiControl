@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,11 @@ import android.widget.Toast;
 
 public class SettingFrame extends Fragment {
 
-	Button btnConnect;
+	Button btnConnect, btnExcute, btnChange, btnAdd;
 	TextView tvConnection, tvIP, tvUsername, tvPassword;
-	EditText etIP, etUsername, etPassword;
+	EditText etIP, etUsername, etPassword, etCommand, etResolution, etFramerate, etWeekday, etMonth, etDay, etHour, etMinute, etMode;
 	AlertDialog.Builder mydialog;
+	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,6 +44,20 @@ public class SettingFrame extends Fragment {
 		etUsername.setTypeface(face);
 		etPassword=(EditText)rootView.findViewById(R.id.etPassword);
 		etPassword.setTypeface(face);
+		
+		etCommand=(EditText)rootView.findViewById(R.id.etCommand);
+		btnExcute = (Button)rootView.findViewById(R.id.btnExcute);
+		etResolution=(EditText)rootView.findViewById(R.id.etResolution);
+		etFramerate=(EditText)rootView.findViewById(R.id.etFramerate);
+		btnChange = (Button)rootView.findViewById(R.id.btnChangResolution);
+		etWeekday=(EditText)rootView.findViewById(R.id.etWeekday);
+		etMonth=(EditText)rootView.findViewById(R.id.etMonth);
+		etDay=(EditText)rootView.findViewById(R.id.etDay);
+		etHour=(EditText)rootView.findViewById(R.id.etHour);
+		etMinute=(EditText)rootView.findViewById(R.id.etMinute);
+		etMode=(EditText)rootView.findViewById(R.id.etMode);
+		btnAdd = (Button)rootView.findViewById(R.id.btnAdd);
+		
 		btnConnect = (Button)rootView.findViewById(R.id.btnConnect);
 		btnConnect.setTypeface(face);
 		btnConnect.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +76,56 @@ public class SettingFrame extends Fragment {
 		                 pd.dismiss();
 		             }
 		         }).start();
+			}
+		});
+		
+		btnExcute.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Function.ExecuteCommand(etCommand.getText().toString());
+			}
+		});
+		btnChange.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				String s="cat <<EOF> /home/pi/mjpg-streamer/mjpg-streamer.sh\n"+Function.getfilecontent(etFramerate.getText().toString(),etResolution.getText().toString());
+				Function.ExecuteCommand(s);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Function.ExecuteCommand("cd ~ && cd mjpg-streamer&& ./mjpg-streamer.sh restart");
+				Thread thread = new Thread()
+				{
+				      @Override
+				      public void run() {
+				          try {
+				              while(true) {
+				                  sleep(2000);
+				                  Function.ExecuteCommand("cd ~ && cd mjpg-streamer&& ./mjpg-streamer.sh start");
+				              }
+				          } catch (InterruptedException e) {
+				          }
+				      }
+				  };
+				thread.start();
+			}
+		});
+		
+		btnAdd.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				//
+				Function.ExecuteCommand("cat <<EOF> mycrontab \nSHELL=/bin/bash\nPATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/pi/mjpg-streamer\n"+etMinute.getText().toString()+" "+etHour.getText().toString()+" "+etDay.getText().toString()+" "+etMonth.getText().toString()+" "+etWeekday.getText().toString()+" cd ~ && cd mjpg-streamer&& ./mjpg-streamer.sh "+etMode.getText().toString());
+				Function.ExecuteCommand("crontab -u pi ~/mycrontab");
 			}
 		});
 		return rootView;
