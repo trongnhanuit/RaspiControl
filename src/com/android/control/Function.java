@@ -1,5 +1,7 @@
 package com.android.control;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Properties;
 import android.util.Log;
 import com.jcraft.jsch.ChannelExec;
@@ -34,17 +36,30 @@ public class Function {
         channel.disconnect();
         session.disconnect();
     }
-    public static void ExecuteCommand(String command) {
+    public static String ExecuteCommand(String command) {
         try {
             if (session.isConnected()) 
             {
                 channel = (ChannelExec) session.openChannel("exec");
                 channel.setCommand(command);
                 channel.connect();
+                
+                // Get response
+/*                BufferedReader reader = new BufferedReader(new InputStreamReader(channel.getInputStream()));
+                StringBuilder builder = new StringBuilder();
+
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line).append("\n");
+                }
+                
+                reader.close();
+                return builder.toString();*/
             }
         } catch (Exception e) {
             Log.d("Error",e.getMessage().toString());
         }
+        return null;
     }
     
     public static String getfilecontent(String framerate, String resolution)

@@ -1,5 +1,7 @@
 package com.android.raspicontrol;
 
+import java.util.Calendar;
+
 import com.android.control.Function;
 import android.support.v4.app.Fragment;
 import android.app.AlertDialog;
@@ -79,6 +81,16 @@ public class SettingFrame extends Fragment {
 			}
 		});
 		
+		etIP.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				// TODO Auto-generated method stub
+				if (!hasFocus)
+					MainActivity.ip=etIP.getText().toString();
+			}
+		});
+		
 		btnExcute.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -124,6 +136,10 @@ public class SettingFrame extends Fragment {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				//
+				// Get current time to set to Raspi
+				Calendar calender = Calendar.getInstance(); 
+				Function.ExecuteCommand("sudo date -s \""+calender.get(Calendar.DAY_OF_MONTH)+" "+getMonthName(calender.get(Calendar.MONTH)+1)+" "+calender.get(Calendar.YEAR)+" "+calender.get(Calendar.HOUR_OF_DAY)+":"+calender.get(Calendar.MINUTE)+":"+calender.get(Calendar.SECOND)+"\"");
+				// Set crontab
 				Function.ExecuteCommand("cat <<EOF> mycrontab \nSHELL=/bin/bash\nPATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/pi/mjpg-streamer\n"+etMinute.getText().toString()+" "+etHour.getText().toString()+" "+etDay.getText().toString()+" "+etMonth.getText().toString()+" "+etWeekday.getText().toString()+" cd ~ && cd mjpg-streamer&& ./mjpg-streamer.sh "+etMode.getText().toString());
 				Function.ExecuteCommand("crontab -u pi ~/mycrontab");
 			}
@@ -167,5 +183,24 @@ public class SettingFrame extends Fragment {
 						mydialog.create().show();
 				  }
 			});
+	}
+	
+	String getMonthName(int m)
+	{
+		switch (m)
+		{
+			case 1: return "JAN";
+			case 2: return "FEB";
+			case 3: return "MAR";
+			case 4: return "APR";
+			case 5: return "MAY";
+			case 6: return "JUN";
+			case 7: return "JUL";
+			case 8: return "AUG";
+			case 9: return "SEP";
+			case 10: return "OCT";
+			case 11: return "NOV";
+		}
+		return "DEC";
 	}
 }

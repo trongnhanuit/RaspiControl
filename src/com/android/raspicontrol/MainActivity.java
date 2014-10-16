@@ -20,6 +20,7 @@ public class MainActivity extends ActionBarActivity implements
 	// Khai bao bien
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
+	public static String ip;
 
 	private String[] tabs = { "Setting", "Streaming", "About" };
 
@@ -29,6 +30,7 @@ public class MainActivity extends ActionBarActivity implements
 		setContentView(R.layout.activity_main);
 		
 		// Set up the action bar.
+		ip="192.168.1.111";
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
